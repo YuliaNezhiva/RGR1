@@ -15,6 +15,9 @@ public class DerivativeApplication {
             System.exit(-1);
         }
 
+        // Створюємо об'єкт нашого нового калькулятора похідної
+        DerivativeCalculator calculator = new CentralDifference();
+
         String fileName = "";
         for (Evaluatable f: functs) {
             System.out.println("Функція: " + f.getClass().getSimpleName());
@@ -22,12 +25,16 @@ public class DerivativeApplication {
             PrintWriter out = new PrintWriter(new FileWriter(fileName));
 
             for (double x = 1.5; x <= 6.5; x += 0.05) {
-                System.out.println("x: " + x + "\tf: " + f.evalf(x) + "\tf': " + NumMethods.der(x, 1.0e-4, f));
-                out.printf("%16.6e%16.6e%16.6e\n", x, f.evalf(x), NumMethods.der(x, 1.0e-4, f));
+                double fx = f.evalf(x);
+                // Використовуємо новий правильний ООП-підхід для розрахунку похідної
+                double dfx = calculator.calculate(x, 1.0e-4, f);
+
+                System.out.println("x: " + x + "\tf: " + fx + "\tf': " + dfx);
+                out.printf("%16.6e%16.6e%16.6e\n", x, fx, dfx);
             }
             System.out.println("\n");
             out.close();
         }
-        System.out.println("Обчислення завершено! Файли створено в корені проєкту.");
+        System.out.println("Обчислення завершено! Файли оновлено.");
     }
 }

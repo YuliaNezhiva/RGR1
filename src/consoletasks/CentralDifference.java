@@ -1,15 +1,13 @@
 package consoletasks;
 
-public class NumMethods {
+public class CentralDifference implements DerivativeCalculator {
 
-    private NumMethods() {
-    }
-
-    private static double meth(double x, double h, Evaluatable f) {
+    private double meth(double x, double h, Evaluatable f) {
         return 0.5 * (f.evalf(x + h) - f.evalf(x - h)) / h;
     }
 
-    public static double der(double x, double tol, Evaluatable f) {
+    @Override
+    public double calculate(double x, double tol, Evaluatable f) {
         final int MAX = 100;
         double h = 0.1;
         double one = meth(x, h, f);
